@@ -79,6 +79,7 @@ var styles = StyleSheet.create({
 	img:{
 		height:75,
 		width:75,
+		marginTop:10,
 		justifyContent:'center'
 	},
 	price:{

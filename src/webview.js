@@ -30,8 +30,8 @@ var webView = React.createClass({
 var styles = StyleSheet.create({
     webView: {
         flex: 1,
-        marginBottom:50,
-        marginTop:60
+        marginBottom:0,
+        marginTop:0
     }
 });
 
