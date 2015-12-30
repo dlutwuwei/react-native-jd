@@ -8,7 +8,7 @@
 
 除了主页其他均直接使用webview直接展现
 
-!京东客户端(http://ww2.sinaimg.cn/large/4ce25c89gw1ez695vwm2ij20ha0vwzr6.jpg)
+![京东客户端](http://ww2.sinaimg.cn/large/4ce25c89gw1ez695vwm2ij20ha0vwzr6.jpg)
 
 ##开发中碰到的问题
 1. react-native的flex支持的css属性很少，并不能体现web ui的优势
