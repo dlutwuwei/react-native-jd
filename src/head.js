@@ -13,7 +13,8 @@ var {
   AlertIOS,
   PushNotificationIOS,
   TouchableOpacity,
-  PanResponder
+  PanResponder,
+  Animated
 } = React;
 
 
@@ -79,15 +80,25 @@ var targets = [
 var Head = React.createClass({
 	getInitialState: function () {
 		return {
-			index: 0
-		}
+       		left: new Animated.Value(0), // init opacity 0
+     	};
 	},
 	_panResponder:{},
-	componentDidMount: function() {
-	    this.timer = setInterval(function(){
-	    	this.onTouchMove()
-	    }.bind(this),3000);
-  	},
+	componentDidMount:function() {
+		var x = 0;
+		this.timer = setInterval(function(){
+		    Animated.timing(          // Uses easing functions
+		       this.state.left,    // The value to drive
+		       {toValue: -395*x},           // Configuration
+		     ).start(); 
+
+		    //this.setState({left:this.state.left})
+		       
+		    x = (++x) %4;           			
+		}.bind(this), 3000)
+
+// Don't forget start!
+	},
 	onPress: function(){
 		this.props.navigator.push({
 			title: '空白页',
@@ -118,15 +129,26 @@ var Head = React.createClass({
 		var iconlist = icons.map(function(item, index){
 			return (<WithIcon key={index} src={item} onpress={self.onPress}>{texts[index]}</WithIcon>)
 		})
-		return (
-			<View style={this.props.style}>
-				<TouchableOpacity onPress={self.go(targets[this.state.index])} >
-				<View>
+		var imgs = focuses.map(function(item, index){
+			return (
+				<TouchableOpacity key={index} onPress={self.go(targets[index])} >
 					<Image
 					  style={styles.headimage}
-					  source={{uri: focuses[this.state.index]}} />
-				</View>
+					  source={{uri: item}} />
 				</TouchableOpacity>
+				)
+		});
+		var circles = new Array(4).map(function(item){
+			return (<View style={styles.circle}></View>)
+		})
+		return (
+			<View style={[this.props.style,styles.container]}>
+				<Animated.View style={[styles.cont,{
+					marginLeft: this.state.left
+				}]}>
+				{imgs}
+				</Animated.View>
+				{circles}
 				<View style={styles.iconlist} >       
 					{iconlist}
 				</View>
@@ -136,7 +158,22 @@ var Head = React.createClass({
 	}
 });
 var styles = StyleSheet.create({
+	container:{
+		width:395,
+		overflow:'hidden'
+	},
+	cont:{
+		flexWrap:'nowrap',
+		flexDirection:'row',
+		height:190
+	},
+	circle:{
+		radiusBorder: 5,
+		height: 5,
+		width: 5
+	},
 	headimage:{
+		width:395,
 		height:190,
 		justifyContent:"space-between",
 	},
